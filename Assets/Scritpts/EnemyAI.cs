@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour
 
     private float speed;
     private float hearArea = 3.0F;
-    private float veawArea = 6.0F;
+    private float viewArea = 6.0F;
 
     private Rigidbody2D rb;
     private Player player;
@@ -43,18 +43,21 @@ public class EnemyAI : MonoBehaviour
 
     //Debug.Log(colliders[colliders.Length-1].tag);
     private bool detectWall = false;
+    private bool niceDistance = false;
     private void viewing()
     {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, player.transform.position, veawArea);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), viewArea);
         for (int i = 0; i < hits.Length; i++) {
             Debug.Log(hits[i].collider.tag);
             
             if (hits[i].collider.tag == "Wall") detectWall = true;
+            if (hits[i].collider.tag == "Player" && viewArea - hits[i].distance >= 0) niceDistance = true;
         }
         Debug.Log(hits.Length);
-        if (detectWall == false) Debug.Log("See this asshole!");
+        if (!detectWall && niceDistance) Debug.Log("See this asshole!");
         detectWall = false;
-        Debug.DrawRay(transform.position, player.transform.position, Color.red);
+        niceDistance = false;
+        Debug.DrawRay(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), Color.red);
 
     }
 }

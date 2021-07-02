@@ -18,27 +18,16 @@ public class Player : Character
 
     void Update()
     {
-        Move();
-        faceDir = Input.mousePosition;
-        mousePos = cam.ScreenToWorldPoint(faceDir);
+        
+        
+        
     }
 
 
     private void FixedUpdate()
     {
-
-        
-
-        Vector2 lookDir = mousePos - transform.position;
-       // Debug.Log(lookDir);
-
-
-        Debug.DrawRay(transform.position, lookDir, Color.yellow);
-
-        rotationAngle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
-
-        rb.rotation = rotationAngle;
-        
+        Move();
+        Rotate();
     }
     protected override void Move()
     {
@@ -49,6 +38,17 @@ public class Player : Character
 
     protected override void Rotate()
     {
-        
+        faceDir = Input.mousePosition;
+        mousePos = cam.ScreenToWorldPoint(faceDir);
+        Vector2 lookDir = mousePos - transform.position;
+        // Debug.Log(lookDir);
+
+
+        Debug.DrawRay(transform.position, lookDir, Color.yellow);
+
+        rotationAngle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+
+        rb.rotation = rotationAngle;
+
     }
 }
