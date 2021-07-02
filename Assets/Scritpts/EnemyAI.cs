@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyAI : Character
 {
     private int status;
-    public int dangerLvl;
+    public int dangerLvl = 3;
 
     private float hearArea = 3.0F;
     private float viewArea = 6.0F;
@@ -28,13 +28,14 @@ public class EnemyAI : Character
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        dangerLvl = 3;
+
     }
 
     private void Update()
     {
-        // viewing();
-        // listening();
-        dangerLvl = 3;
+        viewing();
+        listening();
         switch (dangerLvl)
         {
             case 1: Danger1(); break;
@@ -55,7 +56,7 @@ public class EnemyAI : Character
             {
                 dangerLvl = 2;  //HERE TAKE DANGER LVL
                 Transform victim = colliders[i].transform;
-              //  Debug.Log(victim.position);
+               Debug.Log("HEAR");
 
             }
 
@@ -76,7 +77,10 @@ public class EnemyAI : Character
             if (hits[i].collider.tag == "Player" && viewArea - hits[i].distance >= 0) niceDistance = true;
         }
         // Debug.Log(hits.Length);
-        if (!detectWall && niceDistance) { dangerLvl = 1; } //HERE TAKE DANGER LVL
+        if (!detectWall && niceDistance)
+        {
+            Debug.Log("SEE");
+            dangerLvl = 1; } //HERE TAKE DANGER LVL
         detectWall = false;
         niceDistance = false;
         Debug.DrawRay(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), Color.red);
@@ -95,6 +99,7 @@ public class EnemyAI : Character
     }
     private void Danger1()
     {
+        agent.speed = 2.5F;
         distPos = player.transform.position;
         agent.SetDestination(distPos);
         Rotate();
@@ -103,8 +108,8 @@ public class EnemyAI : Character
     public bool takeLastVictimPos = true;
     private void Danger2()
     {
-       
-        distPos = lastVictimPos;
+        agent.speed = 2.0F;
+        distPos = player.transform.position;
         agent.SetDestination(distPos);
         //Debug.Log(distPos);
         Rotate();
@@ -113,6 +118,7 @@ public class EnemyAI : Character
 
     private void Danger3()
     {
+        agent.speed = 1.5F;
         Patrool();
     }
 
