@@ -23,23 +23,23 @@ public class Enemy1Nav : Patrool
 
     }
     [SerializeField]
-    int j = 0;
+    int navFlagNumber = 0;
     void Update()
     {
-        Debug.Log(j);
+        Debug.Log(navFlagNumber);
         Debug.Log(enemyAI.lastVictimPos);
 
         if (enemyAI.dangerLvl == 3)
         {
 
-            if (enemyAI.takeLastVictimPos) {   newNavFlag(j); j++; enemyAI.takeLastVictimPos = false; }
-            if(j == path.Count) j = 0;
+            if (enemyAI.takeLastVictimPos) {   newNavFlag(navFlagNumber); navFlagNumber++; enemyAI.takeLastVictimPos = false; }
+            if(navFlagNumber == path.Count) navFlagNumber = 0;
         }
 
     }
 
     private void newNavFlag(int j) {
-        enemyAI.j = j;
+        enemyAI.navFlagNumber = j;
         enemyAI.lastVictimPos = path[j].position;
         
     }

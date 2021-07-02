@@ -85,11 +85,11 @@ public class EnemyAI : Character
         niceDistance = false;
         Debug.DrawRay(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), Color.red);
     }
-    public int j = 0;
+    public int navFlagNumber = 0;
     private void Patrool() {
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 1.0F);
         for (int i = 0; i < cols.Length; i++) {
-            if (cols[i].name == "NavFlag " + "(" + j + ")") { Debug.Log("asd"); takeLastVictimPos = true; };
+            if (cols[i].name == "NavFlag " + "(" + navFlagNumber + ")") { Debug.Log("asd"); takeLastVictimPos = true; };
         } 
         //if (transform.position == distPos) { Debug.Log("asd"); takeLastVictimPos = true; }
         if(!takeLastVictimPos) distPos = lastVictimPos;
