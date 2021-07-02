@@ -5,52 +5,57 @@ using UnityEngine.AI;
 
 public class EnemyAI : Character
 {
-
     private int status;
-    private int dangerLvl;
+    public int dangerLvl;
 
     private float hearArea = 3.0F;
     private float viewArea = 6.0F;
-    private Vector3 faceDir;
-    private Vector3 distPos;
+    public Vector3 distPos;
+    public Vector3 lastVictimPos;
 
+    
     private Player player;
-
-    [SerializeField]
-    public Transform target;
     private NavMeshAgent agent;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<Player>();
-            }
+    }
 
     private void Start()
     {
-        target = player.transform;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
+
     private void Update()
     {
-        
-        listening();
-        if (viewing() != null) { Danger1(); distPos = player.transform.position;
+        // viewing();
+        // listening();
+        dangerLvl = 3;
+        switch (dangerLvl)
+        {
+            case 1: Danger1(); break;
+            case 2: Danger2(); break;
+            case 3: Danger3(); break;
+            default: Danger3(); break;
+
         }
 
     }
+
     private void listening()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, hearArea);
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].tag == "Player")
+            if (colliders[i].tag == "Player" && Input.GetButtonDown("Fire1"))
             {
-                Debug.Log("Catch"); //TODO Logic danger
+                dangerLvl = 2;  //HERE TAKE DANGER LVL
                 Transform victim = colliders[i].transform;
-                Debug.Log(victim.position);
+              //  Debug.Log(victim.position);
 
             }
 
@@ -60,40 +65,66 @@ public class EnemyAI : Character
     //Debug.Log(colliders[colliders.Length-1].tag);
     private bool detectWall = false;
     private bool niceDistance = false;
-    private Player viewing()
+    private void viewing()
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), viewArea);
-        for (int i = 0; i < hits.Length; i++) {
-            Debug.Log(hits[i].collider.tag);
-            
+        for (int i = 0; i < hits.Length; i++)
+        {
+         //   Debug.Log(hits[i].collider.tag);
+
             if (hits[i].collider.tag == "Wall") detectWall = true;
             if (hits[i].collider.tag == "Player" && viewArea - hits[i].distance >= 0) niceDistance = true;
         }
-        Debug.Log(hits.Length);
-        if (!detectWall && niceDistance) { return player; }
+        // Debug.Log(hits.Length);
+        if (!detectWall && niceDistance) { dangerLvl = 1; } //HERE TAKE DANGER LVL
         detectWall = false;
         niceDistance = false;
         Debug.DrawRay(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), Color.red);
-        return null;
+    }
+    public int j = 0;
+    private void Patrool() {
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 1.0F);
+        for (int i = 0; i < cols.Length; i++) {
+            if (cols[i].name == "NavFlag " + "(" + j + ")") { Debug.Log("asd"); takeLastVictimPos = true; };
+        } 
+        //if (transform.position == distPos) { Debug.Log("asd"); takeLastVictimPos = true; }
+        if(!takeLastVictimPos) distPos = lastVictimPos;
+        agent.SetDestination(distPos);
+       // Debug.Log(distPos);
+        Rotate();
+    }
+    private void Danger1()
+    {
+        distPos = player.transform.position;
+        agent.SetDestination(distPos);
+        Rotate();
     }
 
-    private void Danger1() {
-        agent.SetDestination(target.position);
+    public bool takeLastVictimPos = true;
+    private void Danger2()
+    {
+       
+        distPos = lastVictimPos;
+        agent.SetDestination(distPos);
+        //Debug.Log(distPos);
         Rotate();
+
+    }
+
+    private void Danger3()
+    {
+        Patrool();
     }
 
     protected override void Rotate()
     {
-        faceDir = Input.mousePosition;
         Vector2 lookDir = distPos - transform.position;
         // Debug.Log(lookDir);
-
-
         Debug.DrawRay(transform.position, lookDir, Color.yellow);
-
         rotationAngle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
-
         rb.rotation = rotationAngle;
 
     }
+
+    
 }

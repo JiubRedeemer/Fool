@@ -51,4 +51,6 @@ public class Player : Character
         rb.rotation = rotationAngle;
 
     }
+
+    
 }
