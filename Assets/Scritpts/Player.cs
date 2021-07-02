@@ -30,7 +30,7 @@ public class Player : Character
         
 
         Vector2 lookDir = mousePos - transform.position;
-        Debug.Log(lookDir);
+       // Debug.Log(lookDir);
 
 
         Debug.DrawRay(transform.position, lookDir, Color.yellow);
