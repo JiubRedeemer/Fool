@@ -16,14 +16,6 @@ public class Player : Character
         speed = 2.0F;
     }
 
-    void Update()
-    {
-        
-        
-        
-    }
-
-
     private void FixedUpdate()
     {
         Move();
@@ -41,7 +33,6 @@ public class Player : Character
         faceDir = Input.mousePosition;
         mousePos = cam.ScreenToWorldPoint(faceDir);
         Vector2 lookDir = mousePos - transform.position;
-        // Debug.Log(lookDir);
 
 
         Debug.DrawRay(transform.position, lookDir, Color.yellow);

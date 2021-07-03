@@ -13,7 +13,7 @@ public class EnemyAI : Character
     public Vector3 distPos;
     public Vector3 lastVictimPos;
 
-    
+
     private Player player;
     private NavMeshAgent agent;
 
@@ -56,14 +56,14 @@ public class EnemyAI : Character
             {
                 dangerLvl = 2;  //HERE TAKE DANGER LVL
                 Transform victim = colliders[i].transform;
-               Debug.Log("HEAR");
+                Debug.Log("HEAR");
 
             }
 
         }
     }
 
-    //Debug.Log(colliders[colliders.Length-1].tag);
+
     private bool detectWall = false;
     private bool niceDistance = false;
     private void viewing()
@@ -71,30 +71,33 @@ public class EnemyAI : Character
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), viewArea);
         for (int i = 0; i < hits.Length; i++)
         {
-         //   Debug.Log(hits[i].collider.tag);
+
 
             if (hits[i].collider.tag == "Wall") detectWall = true;
             if (hits[i].collider.tag == "Player" && viewArea - hits[i].distance >= 0) niceDistance = true;
         }
-        // Debug.Log(hits.Length);
+
         if (!detectWall && niceDistance)
         {
             Debug.Log("SEE");
-            dangerLvl = 1; } //HERE TAKE DANGER LVL
+            dangerLvl = 1;
+        } //HERE TAKE DANGER LVL
         detectWall = false;
         niceDistance = false;
         Debug.DrawRay(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), Color.red);
     }
     public int navFlagNumber = 0;
-    private void Patrool() {
+    private void Patrool()
+    {
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 1.0F);
-        for (int i = 0; i < cols.Length; i++) {
-            if (cols[i].name == "NavFlag " + "(" + navFlagNumber + ")") { Debug.Log("asd"); takeLastVictimPos = true; };
-        } 
-        //if (transform.position == distPos) { Debug.Log("asd"); takeLastVictimPos = true; }
-        if(!takeLastVictimPos) distPos = lastVictimPos;
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].name == "NavFlag " + "(" + navFlagNumber + ")") { takeLastVictimPos = true; };
+        }
+
+        if (!takeLastVictimPos) distPos = lastVictimPos;
         agent.SetDestination(distPos);
-       // Debug.Log(distPos);
+
         Rotate();
     }
     private void Danger1()
@@ -111,7 +114,7 @@ public class EnemyAI : Character
         agent.speed = 2.0F;
         distPos = player.transform.position;
         agent.SetDestination(distPos);
-        //Debug.Log(distPos);
+
         Rotate();
 
     }
@@ -125,12 +128,12 @@ public class EnemyAI : Character
     protected override void Rotate()
     {
         Vector2 lookDir = distPos - transform.position;
-        // Debug.Log(lookDir);
+
         Debug.DrawRay(transform.position, lookDir, Color.yellow);
         rotationAngle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
         rb.rotation = rotationAngle;
 
     }
 
-    
+
 }

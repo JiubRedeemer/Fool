@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    protected float speed;
+    public float speed;
     protected float rotationAngle;
 
     protected Rigidbody2D rb;
@@ -13,13 +13,11 @@ public class Character : MonoBehaviour
     protected Vector2 movement;
     protected Vector2 lookDir;
 
-    
-
     protected virtual void Move() { }
 
 
     protected virtual void Rotate() { }
-   
+
 
 
 }
