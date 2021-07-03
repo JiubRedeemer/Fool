@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    private float speed = 2.0F;
+    private float speed = 10.0F;
     [SerializeField]
     private Transform target;
 
@@ -18,6 +18,6 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         Vector3 position = target.position; position.z = -10.0F;
-        transform.position = Vector3.Lerp(transform.position, position, speed = 10f);
+        transform.position = Vector3.Lerp(transform.position, position, speed);
     }
 }

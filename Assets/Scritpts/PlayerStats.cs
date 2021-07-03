@@ -1,33 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerStats : MonoBehaviour
 {
+    public Sprite danger1;
+    public Sprite danger2;
+    public Sprite danger3;
+    public Image staminaBar;
+    public Image peeBar;
+    public GameObject dangerLvlGameObject;
+    private SpriteRenderer dangerLvlSprite;
     public Player player;
-    private float stamina = 10F;
-    [SerializeField]
-    private float staminaWasteSpeed = 1.0F;
-    public float Stamina { get { return stamina; } set { stamina = value; } }
-
+    public float dangerLvl;
+    //Speeds
     private float normalSpeed = 2.0F;
     private float lowSpeed = 1.0F;
     private float highSpeed = 3.0F;
- 
+    //Stamina
+    [SerializeField]
+    private float staminaWasteSpeed = 1.0F;
+    private float stamina = 100F;
+    public float Stamina { get { return stamina; } set { stamina = value; } }
+    //Pee
+    private float peeLvl;
+    private float peeWannaLvl = 100F;
+    public float PeeLvl { get { return peeLvl; } set { peeLvl = value; } }
+
+
+   
+
     private void Awake()
     {
         player = GetComponent<Player>();
+        dangerLvlSprite = dangerLvlGameObject.GetComponentInChildren<SpriteRenderer>();
     }
     void Start()
     {
+        staminaBar.fillAmount = 1f;
+        peeBar.fillAmount = 0f;
         StartCoroutine(StaminaWaste());
 
     }
 
     void Update()
     {
-        Debug.Log(stamina);
-        if (stamina <= 0) { stamina = 0; setLowSpeed(); }
+        
+        staminaState();
+        peeState();
+        dangerUI();
     }
 
 
@@ -44,7 +65,11 @@ public class PlayerStats : MonoBehaviour
     {
         player.speed = lowSpeed;
     }
-
+    public void staminaState() {
+        staminaBar.fillAmount = stamina/100;
+        if (stamina <= 0) { stamina = 0; setLowSpeed(); }
+        if (stamina >= 100) stamina = 100;
+    }
     IEnumerator StaminaWaste()
     {
         while (true)
@@ -53,7 +78,34 @@ public class PlayerStats : MonoBehaviour
             stamina -= staminaWasteSpeed;
         }
     }
+    private void peeState() {
+        peeBar.fillAmount = peeLvl / 100;
+        if (peeLvl >= peeWannaLvl) {
+            Debug.Log("Wanna pee!!!");
+        }
+    }
+    private void dangerUI() {
+        switch (dangerLvl) {
+            case 1: dangerLvlSprite.sprite = danger1; break;
+            case 2: dangerLvlSprite.sprite = danger2; break;
+            case 3: dangerLvlSprite.sprite = danger3; break;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

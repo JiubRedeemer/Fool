@@ -14,13 +14,13 @@ public class EnemyAI : Character
     public Vector3 lastVictimPos;
 
 
-    private Player player;
+    private PlayerStats playerStats;
     private NavMeshAgent agent;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        player = FindObjectOfType<Player>();
+        playerStats = FindObjectOfType<PlayerStats>();
     }
 
     private void Start()
@@ -29,6 +29,8 @@ public class EnemyAI : Character
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         dangerLvl = 3;
+        playerStats.dangerLvl = dangerLvl;
+
 
     }
 
@@ -54,8 +56,11 @@ public class EnemyAI : Character
         {
             if (colliders[i].tag == "Player" && Input.GetButtonDown("Fire1"))
             {
-                dangerLvl = 2;  //HERE TAKE DANGER LVL
+                dangerLvl = 2;
+                playerStats.dangerLvl = dangerLvl;
+                //HERE TAKE DANGER LVL
                 Transform victim = colliders[i].transform;
+                lastVictimPos = victim.position;
                 Debug.Log("HEAR");
 
             }
@@ -68,7 +73,7 @@ public class EnemyAI : Character
     private bool niceDistance = false;
     private void viewing()
     {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), viewArea);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(playerStats.player.transform.position.x - transform.position.x, playerStats.player.transform.position.y - transform.position.y), viewArea);
         for (int i = 0; i < hits.Length; i++)
         {
 
@@ -81,10 +86,12 @@ public class EnemyAI : Character
         {
             Debug.Log("SEE");
             dangerLvl = 1;
+            playerStats.dangerLvl = dangerLvl;
+
         } //HERE TAKE DANGER LVL
         detectWall = false;
         niceDistance = false;
-        Debug.DrawRay(transform.position, new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y), Color.red);
+        Debug.DrawRay(transform.position, new Vector2(playerStats.player.transform.position.x - transform.position.x, playerStats.player.transform.position.y - transform.position.y), Color.red);
     }
     public int navFlagNumber = 0;
     private void Patrool()
@@ -103,7 +110,7 @@ public class EnemyAI : Character
     private void Danger1()
     {
         agent.speed = 2.5F;
-        distPos = player.transform.position;
+        distPos = playerStats.player.transform.position;
         agent.SetDestination(distPos);
         Rotate();
     }
@@ -112,7 +119,7 @@ public class EnemyAI : Character
     private void Danger2()
     {
         agent.speed = 2.0F;
-        distPos = player.transform.position;
+        distPos = lastVictimPos;
         agent.SetDestination(distPos);
 
         Rotate();

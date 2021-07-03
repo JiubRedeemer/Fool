@@ -9,6 +9,7 @@ public class Items : MonoBehaviour
 
     string waterTag = "Water";
     private float waterStamina = 20.0F;
+    private float waterPeeLvl = 10.0F;
     void Start()
     {
         playerStats = FindObjectOfType<PlayerStats>();
@@ -24,8 +25,9 @@ public class Items : MonoBehaviour
         Collider2D[] cols = Physics2D.OverlapCircleAll(playerStats.player.transform.position, 0.5F);
         for (int i = 0; i < cols.Length; i++)
         {
-            if (cols[i].tag == "Water") { 
-                playerStats.Stamina += waterStamina; 
+            if (cols[i].tag == waterTag) { 
+                playerStats.Stamina += waterStamina;
+                playerStats.PeeLvl += waterPeeLvl;
                 playerStats.setNormalSpeed();
                 Destroy(cols[i].gameObject);
                 
