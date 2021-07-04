@@ -5,6 +5,9 @@ using UnityEngine;
 public class Enemy1Nav : Patrool
 {
 
+    public float timeInFlag = 5.0f;
+    public bool stayInFlag;
+    float waiter;
     public GameObject agent;
     private EnemyAI enemyAI;
     private int flags;
@@ -14,6 +17,7 @@ public class Enemy1Nav : Patrool
     }
     void Start()
     {
+        waiter = timeInFlag;
         for (int i = 0; i < transform.childCount; i++)
         {
             path.Add(transform.GetChild(i));
@@ -27,19 +31,32 @@ public class Enemy1Nav : Patrool
     void Update()
     {
 
+        
+
+    }
+    private void FixedUpdate()
+    {
         if (enemyAI.dangerLvl == 3)
         {
 
-            if (enemyAI.takeLastVictimPos) { newNavFlag(navFlagNumber); navFlagNumber++; enemyAI.takeLastVictimPos = false; }
+            if (enemyAI.takeLastVictimPos)
+            {
+                enemyAI.status = 1;
+                if ((waiter -= Time.deltaTime) <= 0)
+                {
+                    newNavFlag(navFlagNumber); enemyAI.takeLastVictimPos = false;
+                    enemyAI.status = 2;
+                }
+            }
             if (navFlagNumber == flags) navFlagNumber = 0;
         }
-
     }
-
     private void newNavFlag(int j)
     {
+        waiter = timeInFlag;
         enemyAI.navFlagNumber = j;
         enemyAI.lastVictimPos = path[j].position;
+        navFlagNumber++;
 
     }
 }

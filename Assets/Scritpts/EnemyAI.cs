@@ -5,11 +5,13 @@ using UnityEngine.AI;
 
 public class EnemyAI : Character
 {
-    private int status;
+    public int status; // 1-Stay in Flag, 2-Go to Flag, 3 - Go to last Player pos, 4 - Attack
     public int dangerLvl = 3;
 
     private float hearArea = 3.0F;
     private float viewArea = 6.0F;
+    public int fov = 180;
+
     public Vector3 distPos;
     public Vector3 lastVictimPos;
 
@@ -17,12 +19,17 @@ public class EnemyAI : Character
     private PlayerStats playerStats;
     private NavMeshAgent agent;
 
+    private bool detectWall = false;
+    private bool niceDistance = false;
+    public int navFlagNumber = 0;
+    public bool takeLastVictimPos = true;
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerStats = FindObjectOfType<PlayerStats>();
     }
-
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -33,7 +40,6 @@ public class EnemyAI : Character
 
 
     }
-
     private void Update()
     {
         viewing();
@@ -48,7 +54,6 @@ public class EnemyAI : Character
         }
 
     }
-
     private void listening()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, hearArea);
@@ -67,10 +72,7 @@ public class EnemyAI : Character
 
         }
     }
-
-
-    private bool detectWall = false;
-    private bool niceDistance = false;
+    
     private void viewing()
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(playerStats.player.transform.position.x - transform.position.x, playerStats.player.transform.position.y - transform.position.y), viewArea);
@@ -93,18 +95,21 @@ public class EnemyAI : Character
         niceDistance = false;
         Debug.DrawRay(transform.position, new Vector2(playerStats.player.transform.position.x - transform.position.x, playerStats.player.transform.position.y - transform.position.y), Color.red);
     }
-    public int navFlagNumber = 0;
+    
     private void Patrool()
     {
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 1.0F);
         for (int i = 0; i < cols.Length; i++)
         {
-            if (cols[i].name == "NavFlag " + "(" + navFlagNumber + ")") { takeLastVictimPos = true; };
+            if (cols[i].name == "NavFlag " + "(" + navFlagNumber + ")") { 
+                takeLastVictimPos = true;
+               
+            }
         }
 
         if (!takeLastVictimPos) distPos = lastVictimPos;
         agent.SetDestination(distPos);
-
+        if (status == 1) RandomRotate(); else
         Rotate();
     }
     private void Danger1()
@@ -112,26 +117,29 @@ public class EnemyAI : Character
         agent.speed = 2.5F;
         distPos = playerStats.player.transform.position;
         agent.SetDestination(distPos);
-        Rotate();
+        if (status == 1) RandomRotate();
+        else
+            Rotate();
+        status = 4;
     }
-
-    public bool takeLastVictimPos = true;
+   
     private void Danger2()
     {
         agent.speed = 2.0F;
         distPos = lastVictimPos;
         agent.SetDestination(distPos);
 
-        Rotate();
+        if (status == 1) RandomRotate();
+        else
+            Rotate();
+        status = 3;
 
     }
-
     private void Danger3()
     {
         agent.speed = 1.5F;
         Patrool();
     }
-
     protected override void Rotate()
     {
         Vector2 lookDir = distPos - transform.position;
@@ -140,6 +148,12 @@ public class EnemyAI : Character
         rotationAngle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
         rb.rotation = rotationAngle;
 
+    }
+    
+    private void RandomRotate() {
+
+        rotationAngle = Random.Range(0, 360);
+        rb.rotation = rotationAngle;
     }
 
 
