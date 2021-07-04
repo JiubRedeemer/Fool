@@ -11,6 +11,9 @@ public class EnemyAI : Character
     private float hearArea = 3.0F;
     private float viewArea = 6.0F;
     public int fov = 180;
+    private float rotateSpeed = 0.1f;
+    private float seeInOnePosTime = 1.0f;
+    private float seeInOnePosTimeWaiter;
 
     public Vector3 distPos;
     public Vector3 lastVictimPos;
@@ -32,6 +35,7 @@ public class EnemyAI : Character
     }
     private void Start()
     {
+        seeInOnePosTimeWaiter = seeInOnePosTime;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -72,7 +76,7 @@ public class EnemyAI : Character
 
         }
     }
-    
+
     private void viewing()
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(playerStats.player.transform.position.x - transform.position.x, playerStats.player.transform.position.y - transform.position.y), viewArea);
@@ -95,22 +99,24 @@ public class EnemyAI : Character
         niceDistance = false;
         Debug.DrawRay(transform.position, new Vector2(playerStats.player.transform.position.x - transform.position.x, playerStats.player.transform.position.y - transform.position.y), Color.red);
     }
-    
+
     private void Patrool()
     {
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 1.0F);
         for (int i = 0; i < cols.Length; i++)
         {
-            if (cols[i].name == "NavFlag " + "(" + navFlagNumber + ")") { 
+            if (cols[i].name == "NavFlag " + "(" + navFlagNumber + ")")
+            {
                 takeLastVictimPos = true;
-               
+
             }
         }
 
         if (!takeLastVictimPos) distPos = lastVictimPos;
         agent.SetDestination(distPos);
-        if (status == 1) RandomRotate(); else
-        Rotate();
+        if (status == 1) RandomRotate();
+        else
+            Rotate();
     }
     private void Danger1()
     {
@@ -122,7 +128,7 @@ public class EnemyAI : Character
             Rotate();
         status = 4;
     }
-   
+
     private void Danger2()
     {
         agent.speed = 2.0F;
@@ -149,11 +155,20 @@ public class EnemyAI : Character
         rb.rotation = rotationAngle;
 
     }
-    
-    private void RandomRotate() {
+    float randAngle = 0;
 
-        rotationAngle = Random.Range(0, 360);
-        rb.rotation = rotationAngle;
+    private void RandomRotate()
+    {
+        Debug.Log(seeInOnePosTime);
+        if ((seeInOnePosTimeWaiter -= Time.deltaTime) <= 0)
+        {
+            randAngle = Random.Range(0, 360);
+
+            seeInOnePosTimeWaiter = seeInOnePosTime;
+        }
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(randAngle, Vector3.forward), rotateSpeed);
+
+
     }
 
 
