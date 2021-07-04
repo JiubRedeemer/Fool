@@ -113,8 +113,8 @@ public class EnemyAI : Character
         }
 
         if (!takeLastVictimPos) distPos = lastVictimPos;
-        agent.SetDestination(distPos);
-        if (status == 1) RandomRotate();
+        if(status == 2) agent.SetDestination(distPos);
+        if (status == 1) {  RandomRotate(); agent.speed = 0; }
         else
             Rotate();
     }
