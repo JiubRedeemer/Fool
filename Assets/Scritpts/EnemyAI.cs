@@ -21,6 +21,11 @@ public class EnemyAI : Character
 
     private PlayerStats playerStats;
     private NavMeshAgent agent;
+    private SpriteRenderer statusUI;
+    private Transform statusUITransform;
+    public Sprite danger1;
+    public Sprite danger2;
+    public Sprite danger3;
 
     private bool detectWall = false;
     private bool niceDistance = false;
@@ -30,8 +35,12 @@ public class EnemyAI : Character
 
     private void Awake()
     {
+        
         rb = GetComponent<Rigidbody2D>();
         playerStats = FindObjectOfType<PlayerStats>();
+        statusUITransform = transform.GetChild(2);
+        statusUI = statusUITransform.GetComponentInChildren<SpriteRenderer>();
+        
     }
     private void Start()
     {
@@ -48,14 +57,8 @@ public class EnemyAI : Character
     {
         viewing();
         listening();
-        switch (dangerLvl)
-        {
-            case 1: Danger1(); break;
-            case 2: Danger2(); break;
-            case 3: Danger3(); break;
-            default: Danger3(); break;
-
-        }
+        SetDanger(dangerLvl);
+        
 
     }
     private void listening()
@@ -126,6 +129,7 @@ public class EnemyAI : Character
         if (status == 1) RandomRotate();
         else
             Rotate();
+        
         status = 4;
     }
 
@@ -138,6 +142,7 @@ public class EnemyAI : Character
         if (status == 1) RandomRotate();
         else
             Rotate();
+        
         status = 3;
 
     }
@@ -169,6 +174,17 @@ public class EnemyAI : Character
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(randAngle, Vector3.forward), rotateSpeed);
 
 
+    }
+    private void SetDanger(int status) {
+        
+        switch (status) {
+            case 1: Danger1(); statusUI.sprite = danger1; break;
+            case 2: Danger2(); statusUI.sprite = danger2; break;
+            case 3: Danger3(); statusUI.sprite = danger3; break;
+            default: Danger3(); break;
+        }
+        
+        
     }
 
 
