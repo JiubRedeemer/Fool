@@ -156,6 +156,8 @@ public class EnemyAI : Character
             status = 1;
             if ((stayInDanger2ZoneTimeWaiter -= Time.deltaTime) <= 0) {  
                 dangerLvl = 3;
+                playerStats.dangerLvl = dangerLvl;
+
                 stayInDanger2ZoneTimeWaiter = stayInDanger2ZoneTime;
             }
         }
@@ -194,7 +196,6 @@ public class EnemyAI : Character
 
     }
     private void SetDanger(int status) {
-        
         switch (status) {
             case 1: Danger1(); statusUI.sprite = danger1; break;
             case 2: Danger2(); statusUI.sprite = danger2; break;
@@ -204,8 +205,6 @@ public class EnemyAI : Character
         
         
     }
-    private void lowDanger() { 
-          
-    }
+   
 
 }

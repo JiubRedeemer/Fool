@@ -48,14 +48,14 @@ MonoBehaviour:
   m_FalloffIntensity: 0.504
   m_Color: {r: 1, g: 0.741993, b: 0.5235849, a: 1}
   m_Intensity: 1
-  m_LightVolumeOpacity: 0.035
+  m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0.931
-  m_ShadowVolumeIntensity: 0
+  m_ShadowIntensity: 1
+  m_ShadowVolumeIntensity: 0.2
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 7300539785646225331}
   - component: {fileID: 7830851098090310415}
   - component: {fileID: 3513357767474486908}
+  - component: {fileID: 8847770256843621131}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -173,8 +174,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cd021f27344d34785a6eaf54222168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  danger1: {fileID: 0}
+  danger2: {fileID: 0}
+  danger3: {fileID: 0}
+  staminaBar: {fileID: 0}
+  peeBar: {fileID: 0}
+  dangerLvlGameObject: {fileID: 0}
   player: {fileID: 0}
+  dangerLvl: 0
   staminaWasteSpeed: 1
+--- !u!114 &8847770256843621131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7830851098090310413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.29992914, y: -0.16857815, z: 0}
+  - {x: -0.16976309, y: -0.35298267, z: 0}
+  - {x: -0.16160965, y: -0.17288312, z: 0}
+  - {x: -0.076284885, y: 0.059523612, z: 0}
+  - {x: 0.08766508, y: 0.2048472, z: 0}
+  - {x: 0.21146345, y: 0.32371992, z: 0}
+  - {x: 0.082913876, y: 0.3570391, z: 0}
+  - {x: -0.19713259, y: 0.09433597, z: 0}
+  m_ShapePathHash: -1847912987
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 722788
 --- !u!1 &7830851098703925096
 GameObject:
   m_ObjectHideFlags: 0
