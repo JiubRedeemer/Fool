@@ -50,6 +50,9 @@ TextureImporter:
   - first:
       213: -8516189750247450741
     second: SpriteSheet_15
+  - first:
+      213: -4768450242260759221
+    second: SpriteSheet_16
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -498,7 +501,7 @@ TextureImporter:
         width: 91
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -506,6 +509,27 @@ TextureImporter:
       bones: []
       spriteID: b879da8fa8a60d980800000000000000
       internalID: -8516189750247450741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteSheet_16
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 477
+        width: 12
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4d0cecd4cf03ddb0800000000000000
+      internalID: -4768450242260759221
       vertices: []
       indices: 
       edges: []

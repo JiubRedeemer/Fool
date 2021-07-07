@@ -10,6 +10,7 @@ TagManager:
   - Water
   - StatusUI
   - Inventory
+  - EnergyDrink
   layers:
   - Default
   - TransparentFX

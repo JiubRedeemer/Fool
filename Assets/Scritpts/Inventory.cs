@@ -9,7 +9,7 @@ public class Inventory : MonoBehaviour
     public GameObject itemUI;
     public GameObject content;
     public Items item;
-    private int[,] items = new int[64,2]; //1- water
+    private int[,] items = new int[64,2]; //1- water 2- energyDrink
     int itemsCount = 0;
     private Player player;
     private void Awake()
@@ -51,13 +51,14 @@ public class Inventory : MonoBehaviour
     }
 
     public void UseItem() {
-        for (int i = 0; i < itemsCount-1; i++) {
-
+        for (int i = 0; i < itemsCount; i++) {
+            if(itemsCount>0)
             if (content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed) {
                 content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed = false;
                 int pushItem = items[i, 0];
                 switch (pushItem) {
                     case 1: item.UseWater(); break;
+                    case 2: item.UseEnergyDrink(); break;
                 }
                 if (items[i, 1] > 1)
                 {
@@ -65,6 +66,10 @@ public class Inventory : MonoBehaviour
                     content.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<Text>().text = items[i, 1].ToString();
                 }
                 else {
+                    if (itemsCount > 0) {
+                        items[i,0] = items[i + 1,0];
+                        items[i,1] = items[i + 1,1];
+                    }
                     itemsCount--;
                     Destroy(content.transform.GetChild(i).gameObject);
                 }
