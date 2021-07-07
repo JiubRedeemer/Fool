@@ -51,8 +51,10 @@ public class Inventory : MonoBehaviour
     }
 
     public void UseItem() {
-        for (int i = 0; i < itemsCount; i++) {
+        for (int i = 0; i < itemsCount-1; i++) {
+
             if (content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed) {
+                content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed = false;
                 int pushItem = items[i, 0];
                 switch (pushItem) {
                     case 1: item.UseWater(); break;
@@ -63,7 +65,8 @@ public class Inventory : MonoBehaviour
                     content.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<Text>().text = items[i, 1].ToString();
                 }
                 else {
-                    Destroy(content.transform.GetChild(i));
+                    itemsCount--;
+                    Destroy(content.transform.GetChild(i).gameObject);
                 }
             }
         }
