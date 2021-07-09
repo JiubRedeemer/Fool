@@ -21,8 +21,13 @@ public class Items : MonoBehaviour
     private float energyDrinkSpeedTime = 1.0f;
     private float energyDrinkTime = 15.0f;
     private float energyDrinkPeeLvl = 20.0F;
-    private bool energyDrinkActive = false;
 
+    //Smoke
+    private string smokeTag = "Smoke";
+    private int smokeId = 3;
+    private float smokeRadius = 0.9f;
+    public Sprite smokeSprite;
+    public GameObject smokeUse;
 
 
     void Start()
@@ -36,6 +41,7 @@ public class Items : MonoBehaviour
         CastCollider();
         TakeWater();
         TakeEnergyDrink();
+        TakeSmoke();
     }
     public void CastCollider() {
         cols = Physics2D.OverlapCircleAll(playerStats.player.transform.position, 0.5F);
@@ -72,7 +78,6 @@ public class Items : MonoBehaviour
         }
     }
     public void UseEnergyDrink() {
-        energyDrinkActive = true;
         playerStats.Stamina += energyDrinkStamina;
         playerStats.PeeLvl += energyDrinkPeeLvl;
         playerStats.setHighSpeed();
@@ -91,6 +96,37 @@ public class Items : MonoBehaviour
         }
         playerStats.setNormalSpeed();
     }
+
+    public void TakeSmoke() {
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].tag == smokeTag)
+            {
+                inventory.AddItem(smokeId, smokeSprite);
+
+                Destroy(cols[i].gameObject);
+
+            }
+        }
+    }
+
+    public void UseSmoke() {
+        GameObject usedSmoke;
+        usedSmoke = Instantiate(smokeUse, playerStats.player.transform.position, Quaternion.identity);
+        Collider2D[] colsSmoke = Physics2D.OverlapCircleAll(usedSmoke.transform.position, smokeRadius);
+        EnemyAI enemy;
+        for (int i = 0; i < colsSmoke.Length; i++)
+        {
+            if (colsSmoke[i].tag == "Enemy")
+            {
+                enemy = colsSmoke[i].gameObject.GetComponent<EnemyAI>();
+                enemy.dangerLvl = 2;
+            }
+        }
+        
+
+    }
+
     IEnumerator EnergyDrink() {
         yield return new WaitForSeconds(energyDrinkTime);
         StartCoroutine(EnergyDrinkEndEffect());

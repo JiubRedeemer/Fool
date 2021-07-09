@@ -59,6 +59,7 @@ public class Inventory : MonoBehaviour
                 switch (pushItem) {
                     case 1: item.UseWater(); break;
                     case 2: item.UseEnergyDrink(); break;
+                    case 3: item.UseSmoke(); break;
                 }
                 if (items[i, 1] > 1)
                 {
