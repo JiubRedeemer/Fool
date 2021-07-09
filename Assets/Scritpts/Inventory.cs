@@ -22,7 +22,7 @@ public class Inventory : MonoBehaviour
     {
         UseItem();
     }
-    public void AddItem(int idItem, Sprite spriteItem) {
+    public void AddItem(int idItem, Sprite spriteItem, int count) {
         bool flagFound = false;
         int whereFound = 0;
         for (int i = 0; i < itemsCount; i++) {
@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
         {
             whereFound = itemsCount;
             items[itemsCount, 0] = idItem;
-            items[itemsCount, 1]++;
+            items[itemsCount, 1]+= count;
             GameObject newItem = itemUI;
             newItem.transform.GetChild(0).GetComponent<Image>().sprite = spriteItem;
             newItem.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
@@ -43,7 +43,7 @@ public class Inventory : MonoBehaviour
         }
         else {
             items[whereFound, 0] = idItem;
-            items[whereFound, 1]++;
+            items[whereFound, 1] += count;
             content.transform.GetChild(whereFound).GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
         }
         itemsCount++;

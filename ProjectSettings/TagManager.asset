@@ -12,6 +12,8 @@ TagManager:
   - Inventory
   - EnergyDrink
   - Smoke
+  - Enemy
+  - GiftBox
   layers:
   - Default
   - TransparentFX

@@ -29,6 +29,10 @@ public class Items : MonoBehaviour
     public Sprite smokeSprite;
     public GameObject smokeUse;
 
+    //GiftBox
+    private string giftBoxTag = "GiftBox";
+    
+
 
     void Start()
     {
@@ -42,6 +46,7 @@ public class Items : MonoBehaviour
         TakeWater();
         TakeEnergyDrink();
         TakeSmoke();
+        TakeGiftBox();
     }
     public void CastCollider() {
         cols = Physics2D.OverlapCircleAll(playerStats.player.transform.position, 0.5F);
@@ -51,7 +56,7 @@ public class Items : MonoBehaviour
         for (int i = 0; i < cols.Length; i++)
         {
             if (cols[i].tag == waterTag) {
-                inventory.AddItem(waterId, waterSprite);
+                inventory.AddItem(waterId, waterSprite, 1);
 
                 Destroy(cols[i].gameObject);
 
@@ -70,7 +75,7 @@ public class Items : MonoBehaviour
         {
             if (cols[i].tag == energyDrinkTag)
             {
-                inventory.AddItem(energyDrinkId, energyDrinkSprite);
+                inventory.AddItem(energyDrinkId, energyDrinkSprite, 1);
 
                 Destroy(cols[i].gameObject);
 
@@ -102,7 +107,7 @@ public class Items : MonoBehaviour
         {
             if (cols[i].tag == smokeTag)
             {
-                inventory.AddItem(smokeId, smokeSprite);
+                inventory.AddItem(smokeId, smokeSprite, 1);
 
                 Destroy(cols[i].gameObject);
 
@@ -123,13 +128,33 @@ public class Items : MonoBehaviour
                 enemy.dangerLvl = 2;
             }
         }
-        
-
-    }
+     }
 
     IEnumerator EnergyDrink() {
         yield return new WaitForSeconds(energyDrinkTime);
         StartCoroutine(EnergyDrinkEndEffect());
+
+    }
+    
+    public void TakeGiftBox()
+    {
+        Debug.Log("gf");
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].tag == giftBoxTag)
+            {
+                Destroy(cols[i].gameObject);
+                int randItem = Random.Range(1, 3);
+                Sprite randItemSprite;
+                switch(randItem){
+                    case 1: randItemSprite = waterSprite; break;
+                    case 2: randItemSprite = energyDrinkSprite; break;
+                    case 3: randItemSprite = smokeSprite; break;
+                    default: randItemSprite = waterSprite; break;
+                }
+                inventory.AddItem(randItem, randItemSprite, Random.Range(1, 5));
+            }
+        }
 
     }
 }
