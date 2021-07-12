@@ -40,21 +40,23 @@ public class Inventory : MonoBehaviour
             newItem.transform.GetChild(0).GetComponent<Image>().sprite = spriteItem;
             newItem.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
             Instantiate(newItem, content.transform);
+            itemsCount++;
+
         }
         else {
             items[whereFound, 0] = idItem;
             items[whereFound, 1] += count;
             content.transform.GetChild(whereFound).GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
         }
-        itemsCount++;
         Debug.Log(items[0, 0] +"----"+ items[0, 1]);
     }
 
     public void UseItem() {
-        for (int i = 0; i < itemsCount; i++) {
-            if(itemsCount>0)
-            if (content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed) {
-                content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed = false;
+        if (content.transform.childCount > 0)
+            for (int i = 0; i < itemsCount; i++) {
+               // Debug.Log(itemsCount);
+            if (content.transform.GetChild(i).GetComponentInChildren<Item>().pushed) {
+                content.transform.GetChild(i).GetComponentInChildren<Item>().pushed = false;
                 int pushItem = items[i, 0];
                 switch (pushItem) {
                     case 1: item.UseWater(); break;
@@ -63,15 +65,18 @@ public class Inventory : MonoBehaviour
                 }
                 if (items[i, 1] > 1)
                 {
+
                     items[i, 1]--;
+                     
                     content.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<Text>().text = items[i, 1].ToString();
                 }
                 else {
                     if (itemsCount > 0) {
+                        itemsCount--;
                         items[i,0] = items[i + 1,0];
                         items[i,1] = items[i + 1,1];
                     }
-                    itemsCount--;
+                    
                     Destroy(content.transform.GetChild(i).gameObject);
                 }
             }

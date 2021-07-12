@@ -26,13 +26,12 @@ public class Items : MonoBehaviour
     private string smokeTag = "Smoke";
     private int smokeId = 3;
     private float smokeRadius = 0.9f;
+    public float stayInSmoke = 3.0f;
     public Sprite smokeSprite;
     public GameObject smokeUse;
 
     //GiftBox
     private string giftBoxTag = "GiftBox";
-    
-
 
     void Start()
     {
@@ -116,19 +115,30 @@ public class Items : MonoBehaviour
     }
 
     public void UseSmoke() {
+        Debug.Log("Used smoke");
         GameObject usedSmoke;
         usedSmoke = Instantiate(smokeUse, playerStats.player.transform.position, Quaternion.identity);
         Collider2D[] colsSmoke = Physics2D.OverlapCircleAll(usedSmoke.transform.position, smokeRadius);
+        
         EnemyAI enemy;
         for (int i = 0; i < colsSmoke.Length; i++)
         {
             if (colsSmoke[i].tag == "Enemy")
             {
                 enemy = colsSmoke[i].gameObject.GetComponent<EnemyAI>();
+                //Debug.Log("Enemy in smoke");
+                enemy.inSmoke = true;
+                StartCoroutine(SmokeStopTime(enemy));
                 enemy.dangerLvl = 2;
             }
         }
      }
+
+    IEnumerator SmokeStopTime(EnemyAI enemy) {
+        yield return new WaitForSeconds(stayInSmoke);
+        enemy.inSmoke = false;
+
+    }
 
     IEnumerator EnergyDrink() {
         yield return new WaitForSeconds(energyDrinkTime);
@@ -138,7 +148,7 @@ public class Items : MonoBehaviour
     
     public void TakeGiftBox()
     {
-        Debug.Log("gf");
+       
         for (int i = 0; i < cols.Length; i++)
         {
             if (cols[i].tag == giftBoxTag)

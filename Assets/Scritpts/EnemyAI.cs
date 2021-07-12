@@ -15,14 +15,15 @@ public class EnemyAI : Character
     private float seeInOnePosTimeWaiter;
     private float stayInDanger2ZoneTime = 5.0F;
     private float stayInDanger2ZoneTimeWaiter;
-    
+    private float rotationToVictimAngle;
+    public float fildOfView = 90.0f;
 
     public Vector3 distPos;
     public Vector3 lastVictimPos;
 
 
     private PlayerStats playerStats;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private SpriteRenderer statusUI;
     private Transform statusUITransform;
     public Sprite danger1;
@@ -33,16 +34,16 @@ public class EnemyAI : Character
     private bool niceDistance = false;
     public int navFlagNumber = 0;
     public bool takeLastVictimPos = true;
-
+    public bool inSmoke = false;
 
     private void Awake()
     {
-        
+
         rb = GetComponent<Rigidbody2D>();
         playerStats = FindObjectOfType<PlayerStats>();
         statusUITransform = transform.GetChild(2);
         statusUI = statusUITransform.GetComponentInChildren<SpriteRenderer>();
-        
+
     }
     private void Start()
     {
@@ -58,42 +59,45 @@ public class EnemyAI : Character
     }
     private void Update()
     {
+        Debug.Log(inSmoke);
         viewing();
-        listening();
+       // listening();
         SetDanger(dangerLvl);
-        
+
 
     }
     private void listening()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, hearArea);
-        for (int i = 0; i < colliders.Length; i++)
+        if (dangerLvl != 1)
         {
-            if (colliders[i].tag == "Player" && Input.GetButtonDown("Fire1"))
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, hearArea);
+            for (int i = 0; i < colliders.Length; i++)
             {
-                dangerLvl = 2;
-                playerStats.dangerLvl = dangerLvl;
-                //HERE TAKE DANGER LVL
-                Transform victim = colliders[i].transform;
-                lastVictimPos = victim.position;
-                Debug.Log("HEAR");
+                if (colliders[i].tag == "Player" && Input.GetButtonDown("Fire1"))
+                {
+                    dangerLvl = 2;
+                    playerStats.dangerLvl = dangerLvl;
+                    //HERE TAKE DANGER LVL
+                    Transform victim = colliders[i].transform;
+                    lastVictimPos = victim.position;
+                    Debug.Log("HEAR");
+
+                }
 
             }
-
         }
     }
-    private float rotationToVictimAngle;
-    public float fildOfView = 45.0f;
+
 
     private void viewing()
     {
-        
+
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(playerStats.player.transform.position.x - transform.position.x, playerStats.player.transform.position.y - transform.position.y), viewArea);
 
         rotationToVictimAngle = Vector2.Angle(playerStats.player.transform.position - transform.position, transform.right);
-       
-       // Debug.Log(rotationToVictimAngle + "----" + (rotationToVictimAngle<(90.0f- fildOfView) /2)) ;
-        
+
+        // Debug.Log(rotationToVictimAngle + "----" + (rotationToVictimAngle<(90.0f- fildOfView) /2)) ;
+
         for (int i = 0; i < hits.Length; i++)
         {
 
@@ -128,8 +132,8 @@ public class EnemyAI : Character
         }
 
         if (!takeLastVictimPos) distPos = lastVictimPos;
-        if(status == 2) agent.SetDestination(distPos);
-        if (status == 1) {  RandomRotate(); agent.speed = 0; }
+        if (status == 2) agent.SetDestination(distPos);
+        if (status == 1) { RandomRotate(); agent.speed = 0; }
         else
             Rotate();
     }
@@ -141,7 +145,7 @@ public class EnemyAI : Character
         if (status == 1) RandomRotate();
         else
             Rotate();
-        
+
         status = 4;
     }
 
@@ -151,10 +155,11 @@ public class EnemyAI : Character
         distPos = lastVictimPos;
         agent.SetDestination(distPos);
 
-        if ((lastVictimPos - transform.position).magnitude <= 1.0f) {
-            Debug.Log("Take pos");
+        if ((lastVictimPos - transform.position).magnitude <= 1.0f)
+        {
             status = 1;
-            if ((stayInDanger2ZoneTimeWaiter -= Time.deltaTime) <= 0) {  
+            if ((stayInDanger2ZoneTimeWaiter -= Time.deltaTime) <= 0)
+            {
                 dangerLvl = 3;
                 playerStats.dangerLvl = dangerLvl;
 
@@ -164,7 +169,7 @@ public class EnemyAI : Character
         if (status == 1) RandomRotate();
         else
             Rotate();
-        
+
         status = 3;
 
     }
@@ -184,7 +189,7 @@ public class EnemyAI : Character
 
     private void RandomRotate()
     {
-      //  Debug.Log(seeInOnePosTime);
+        //  Debug.Log(seeInOnePosTime);
         if ((seeInOnePosTimeWaiter -= Time.deltaTime) <= 0)
         {
             randAngle = Random.Range(0, 360);
@@ -195,16 +200,19 @@ public class EnemyAI : Character
 
 
     }
-    private void SetDanger(int status) {
-        switch (status) {
+    
+    private void SetDanger(int status)
+    {
+        switch (status)
+        {
             case 1: Danger1(); statusUI.sprite = danger1; break;
             case 2: Danger2(); statusUI.sprite = danger2; break;
             case 3: Danger3(); statusUI.sprite = danger3; break;
             default: Danger3(); break;
         }
-        
-        
+
+
     }
-   
+
 
 }
