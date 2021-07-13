@@ -9,6 +9,8 @@ TagManager:
   - NavFlag
   - Water
   - StatusUI
+  - Inventory
+  - EnergyDrink
   layers:
   - Default
   - TransparentFX

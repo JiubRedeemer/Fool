@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 4163261536858821029}
   - component: {fileID: 4163261536858821028}
   - component: {fileID: 4163261536858821031}
+  - component: {fileID: -526852214919743968}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -380,7 +381,6 @@ MonoBehaviour:
   speed: 0
   status: 0
   dangerLvl: 3
-  fov: 180
   distPos: {x: 0, y: 0, z: 0}
   lastVictimPos: {x: 0, y: 0, z: 0}
   danger1: {fileID: 8058879627694289943, guid: f5c7d5874c056c04dbd656f96a9dacfa, type: 3}
@@ -388,6 +388,36 @@ MonoBehaviour:
   danger3: {fileID: 0}
   navFlagNumber: 0
   takeLastVictimPos: 1
+  fildOfView: 45
+--- !u!114 &-526852214919743968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4163261536858821051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.13824388, y: 0.40814865, z: 0}
+  - {x: 0.05266434, y: 0.5398095, z: 0}
+  - {x: 0.22382343, y: 0.36865038, z: 0}
+  - {x: 0.17774215, y: -0.09216261, z: 0}
+  - {x: 0.05685672, y: -0.28152025, z: 0}
+  - {x: -0.11430238, y: -0.22227281, z: 0}
+  - {x: -0.27229542, y: -0.0050324798, z: 0}
+  m_ShapePathHash: 1116570991
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 684454
 --- !u!1 &4163261536997200081
 GameObject:
   m_ObjectHideFlags: 0

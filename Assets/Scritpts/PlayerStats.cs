@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour
     //Speeds
     private float normalSpeed = 2.0F;
     private float lowSpeed = 1.0F;
-    private float highSpeed = 3.0F;
+    private float highSpeed = 3.5F;
     //Stamina
     [SerializeField]
     private float staminaWasteSpeed = 1.0F;

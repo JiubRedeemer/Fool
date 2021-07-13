@@ -6,14 +6,16 @@ using UnityEngine.AI;
 public class EnemyAI : Character
 {
     public int status; // 1-Stay in Flag, 2-Go to Flag, 3 - Go to last Player pos, 4 - Attack
-    public int dangerLvl = 3;
+    public int dangerLvl = 3; //1-Attack player, 2-go to last player pos, 3 - Patrool
 
     private float hearArea = 3.0F;
     private float viewArea = 6.0F;
-    public int fov = 180;
     private float rotateSpeed = 0.1f;
     private float seeInOnePosTime = 1.0f;
     private float seeInOnePosTimeWaiter;
+    private float stayInDanger2ZoneTime = 5.0F;
+    private float stayInDanger2ZoneTimeWaiter;
+    
 
     public Vector3 distPos;
     public Vector3 lastVictimPos;
@@ -44,6 +46,7 @@ public class EnemyAI : Character
     }
     private void Start()
     {
+        stayInDanger2ZoneTimeWaiter = stayInDanger2ZoneTime;
         seeInOnePosTimeWaiter = seeInOnePosTime;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -79,10 +82,18 @@ public class EnemyAI : Character
 
         }
     }
+    private float rotationToVictimAngle;
+    public float fildOfView = 45.0f;
 
     private void viewing()
     {
+        
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, new Vector2(playerStats.player.transform.position.x - transform.position.x, playerStats.player.transform.position.y - transform.position.y), viewArea);
+
+        rotationToVictimAngle = Vector2.Angle(playerStats.player.transform.position - transform.position, transform.right);
+       
+       // Debug.Log(rotationToVictimAngle + "----" + (rotationToVictimAngle<(90.0f- fildOfView) /2)) ;
+        
         for (int i = 0; i < hits.Length; i++)
         {
 
@@ -90,12 +101,13 @@ public class EnemyAI : Character
             if (hits[i].collider.tag == "Wall") detectWall = true;
             if (hits[i].collider.tag == "Player" && viewArea - hits[i].distance >= 0) niceDistance = true;
         }
-
         if (!detectWall && niceDistance)
         {
-            Debug.Log("SEE");
-            dangerLvl = 1;
-            playerStats.dangerLvl = dangerLvl;
+            if (rotationToVictimAngle < (90.0f - fildOfView) / 2)
+            {
+                dangerLvl = 1;
+                playerStats.dangerLvl = dangerLvl;
+            }
 
         } //HERE TAKE DANGER LVL
         detectWall = false;
@@ -139,6 +151,16 @@ public class EnemyAI : Character
         distPos = lastVictimPos;
         agent.SetDestination(distPos);
 
+        if ((lastVictimPos - transform.position).magnitude <= 1.0f) {
+            Debug.Log("Take pos");
+            status = 1;
+            if ((stayInDanger2ZoneTimeWaiter -= Time.deltaTime) <= 0) {  
+                dangerLvl = 3;
+                playerStats.dangerLvl = dangerLvl;
+
+                stayInDanger2ZoneTimeWaiter = stayInDanger2ZoneTime;
+            }
+        }
         if (status == 1) RandomRotate();
         else
             Rotate();
@@ -154,17 +176,15 @@ public class EnemyAI : Character
     protected override void Rotate()
     {
         Vector2 lookDir = distPos - transform.position;
-
         Debug.DrawRay(transform.position, lookDir, Color.yellow);
         rotationAngle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
         rb.rotation = rotationAngle;
-
     }
     float randAngle = 0;
 
     private void RandomRotate()
     {
-        Debug.Log(seeInOnePosTime);
+      //  Debug.Log(seeInOnePosTime);
         if ((seeInOnePosTimeWaiter -= Time.deltaTime) <= 0)
         {
             randAngle = Random.Range(0, 360);
@@ -176,7 +196,6 @@ public class EnemyAI : Character
 
     }
     private void SetDanger(int status) {
-        
         switch (status) {
             case 1: Danger1(); statusUI.sprite = danger1; break;
             case 2: Danger2(); statusUI.sprite = danger2; break;
@@ -186,6 +205,6 @@ public class EnemyAI : Character
         
         
     }
-
+   
 
 }
