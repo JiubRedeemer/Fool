@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 7
-  m_Sprite: {fileID: -2909952331274081574, guid: dc2a614e4b9b6ba43bc5f6cd6f2e1c3d, type: 3}
+  m_Sprite: {fileID: -249223805507676342, guid: dc2a614e4b9b6ba43bc5f6cd6f2e1c3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 741637940734322565}
   - component: {fileID: 6584886591159912982}
   m_Layer: 0
-  m_Name: Desk
+  m_Name: Desk 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,7 +152,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0020512342, y: -0.0044210255}
+  m_Offset: {x: -0.0014171004, y: -0.0027705133}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -163,7 +163,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6772163, y: 0.6700066}
+  m_Size: {x: 0.67767084, y: 0.66670555}
   m_EdgeRadius: 0
 --- !u!114 &-5668865926774438514
 MonoBehaviour:
@@ -184,13 +184,13 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: 0.02971363, y: 0.34852338, z: 0}
-  - {x: 0.03267026, y: -0.33711877, z: 0}
-  - {x: 0.3457811, y: -0.3401827, z: 0}
-  - {x: 0.32804132, y: 0.3309443, z: 0}
-  m_ShapePathHash: -977168323
+  - {x: 0.034713507, y: 0.33965337, z: 0}
+  - {x: 0.029767036, y: -0.34308717, z: 0}
+  - {x: 0.3428812, y: -0.34222776, z: 0}
+  - {x: 0.3395834, y: 0.3424865, z: 0}
+  m_ShapePathHash: -2123729039
   m_Mesh: {fileID: 0}
-  m_InstanceId: 29400
+  m_InstanceId: 29480
 --- !u!114 &741637940734322565
 MonoBehaviour:
   m_ObjectHideFlags: 0
