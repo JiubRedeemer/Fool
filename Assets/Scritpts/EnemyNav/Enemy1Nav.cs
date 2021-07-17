@@ -41,6 +41,8 @@ public class Enemy1Nav : Patrool
 
             if (enemyAI.takeLastVictimPos)
             {
+                Debug.Log("Work");
+
                 enemyAI.status = 1;
                 if ((waiter -= Time.deltaTime) <= 0)
                 {

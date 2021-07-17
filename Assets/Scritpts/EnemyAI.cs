@@ -59,7 +59,7 @@ public class EnemyAI : Character
     }
     private void Update()
     {
-        Debug.Log(inSmoke);
+        //Debug.Log(inSmoke);
         viewing();
        // listening();
         SetDanger(dangerLvl);
@@ -132,7 +132,7 @@ public class EnemyAI : Character
         }
 
         if (!takeLastVictimPos) distPos = lastVictimPos;
-        if (status == 2) agent.SetDestination(distPos);
+        if (status == 2) { agent.SetDestination(distPos); agent.speed = 1.5f; }
         if (status == 1) { RandomRotate(); agent.speed = 0; }
         else
             Rotate();
