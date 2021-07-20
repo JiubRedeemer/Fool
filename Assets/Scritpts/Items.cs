@@ -23,6 +23,11 @@ public class Items : MonoBehaviour
     private float energyDrinkPeeLvl = 20.0F;
     private bool energyDrinkActive = false;
 
+    public Sprite smokeItemSprite;
+    private string smokeItemtag = "smokeItem";
+    private int smokeItemId = 3;
+
+
 
 
     void Start()
@@ -36,6 +41,7 @@ public class Items : MonoBehaviour
         CastCollider();
         TakeWater();
         TakeEnergyDrink();
+        takeSmokeItem();
     }
     public void CastCollider() {
         cols = Physics2D.OverlapCircleAll(playerStats.player.transform.position, 0.5F);
@@ -94,6 +100,19 @@ public class Items : MonoBehaviour
     IEnumerator EnergyDrink() {
         yield return new WaitForSeconds(energyDrinkTime);
         StartCoroutine(EnergyDrinkEndEffect());
-
     }
+
+    public void takeSmokeItem() {
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].tag == smokeItemtag)
+            {
+                inventory.AddItem(smokeItemId, smokeItemSprite);
+
+                Destroy(cols[i].gameObject);
+
+            }
+        }
+    }
+
 }
