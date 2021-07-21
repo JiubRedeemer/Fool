@@ -22,11 +22,16 @@ public class Items : MonoBehaviour
     private float energyDrinkTime = 15.0f;
     private float energyDrinkPeeLvl = 20.0F;
     private bool energyDrinkActive = false;
-
+    //SmokeItem
     public Sprite smokeItemSprite;
-    private string smokeItemtag = "smokeItem";
+    public GameObject usedSmokePrefab;
+    private string smokeItemTag = "smokeItem";
     private int smokeItemId = 3;
-
+    //Petard
+    public Sprite petardItemSprite;
+    public GameObject usedPetardPrefab;
+    private string petardItemTag = "petardItem";
+    private int petardItemId = 4;
 
 
 
@@ -41,16 +46,20 @@ public class Items : MonoBehaviour
         CastCollider();
         TakeWater();
         TakeEnergyDrink();
-        takeSmokeItem();
+        TakeSmokeItem();
+        TakePetardItem();
     }
-    public void CastCollider() {
+    public void CastCollider()
+    {
         cols = Physics2D.OverlapCircleAll(playerStats.player.transform.position, 0.5F);
     }
-    public void TakeWater() {
-        
+    public void TakeWater()
+    {
+
         for (int i = 0; i < cols.Length; i++)
         {
-            if (cols[i].tag == waterTag) {
+            if (cols[i].tag == waterTag)
+            {
                 inventory.AddItem(waterId, waterSprite);
 
                 Destroy(cols[i].gameObject);
@@ -59,13 +68,15 @@ public class Items : MonoBehaviour
         }
     }
 
-    public void UseWater() {
+    public void UseWater()
+    {
         playerStats.Stamina += waterStamina;
         playerStats.PeeLvl += waterPeeLvl;
         playerStats.setNormalSpeed();
     }
 
-    public void TakeEnergyDrink() {
+    public void TakeEnergyDrink()
+    {
         for (int i = 0; i < cols.Length; i++)
         {
             if (cols[i].tag == energyDrinkTag)
@@ -77,7 +88,8 @@ public class Items : MonoBehaviour
             }
         }
     }
-    public void UseEnergyDrink() {
+    public void UseEnergyDrink()
+    {
         energyDrinkActive = true;
         playerStats.Stamina += energyDrinkStamina;
         playerStats.PeeLvl += energyDrinkPeeLvl;
@@ -85,9 +97,10 @@ public class Items : MonoBehaviour
         StartCoroutine(EnergyDrink());
     }
 
-    IEnumerator EnergyDrinkEndEffect() {
+    IEnumerator EnergyDrinkEndEffect()
+    {
         int i = 0;
-        while (i<5)
+        while (i < 5)
         {
             playerStats.setLowSpeed();
             yield return new WaitForSeconds(energyDrinkSpeedTime);
@@ -97,15 +110,17 @@ public class Items : MonoBehaviour
         }
         playerStats.setNormalSpeed();
     }
-    IEnumerator EnergyDrink() {
+    IEnumerator EnergyDrink()
+    {
         yield return new WaitForSeconds(energyDrinkTime);
         StartCoroutine(EnergyDrinkEndEffect());
     }
 
-    public void takeSmokeItem() {
+    public void TakeSmokeItem()
+    {
         for (int i = 0; i < cols.Length; i++)
         {
-            if (cols[i].tag == smokeItemtag)
+            if (cols[i].tag == smokeItemTag)
             {
                 inventory.AddItem(smokeItemId, smokeItemSprite);
 
@@ -113,6 +128,29 @@ public class Items : MonoBehaviour
 
             }
         }
+    }
+
+
+    public void useSmokeItem()
+    {
+        GameObject usedSmoke = Instantiate(usedSmokePrefab, playerStats.player.transform.position, Quaternion.identity);
+    }
+
+    public void TakePetardItem()
+    {
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].tag == petardItemTag)
+            {
+                inventory.AddItem(petardItemId, petardItemSprite);
+                Destroy(cols[i].gameObject);
+
+            }
+        }
+    }
+
+    public void UsePetardItem() { 
+    
     }
 
 }

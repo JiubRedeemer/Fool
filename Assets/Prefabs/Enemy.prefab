@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: -526852214919743968}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -381,16 +381,14 @@ MonoBehaviour:
   speed: 0
   status: 0
   dangerLvl: 3
-  fildOfView: 45
   distPos: {x: 0, y: 0, z: 0}
   lastVictimPos: {x: 0, y: 0, z: 0}
-  agent: {fileID: 0}
   danger1: {fileID: 8058879627694289943, guid: f5c7d5874c056c04dbd656f96a9dacfa, type: 3}
   danger2: {fileID: 3929453942698372637, guid: f5c7d5874c056c04dbd656f96a9dacfa, type: 3}
   danger3: {fileID: 0}
   navFlagNumber: 0
   takeLastVictimPos: 1
-  inSmoke: 0
+  fildOfView: 45
 --- !u!114 &-526852214919743968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +417,7 @@ MonoBehaviour:
   - {x: -0.27229542, y: -0.0050324798, z: 0}
   m_ShapePathHash: 1116570991
   m_Mesh: {fileID: 0}
-  m_InstanceId: 27842
+  m_InstanceId: 44072
 --- !u!1 &4163261536997200081
 GameObject:
   m_ObjectHideFlags: 0

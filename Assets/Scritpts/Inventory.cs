@@ -9,24 +9,28 @@ public class Inventory : MonoBehaviour
     public GameObject itemUI;
     public GameObject content;
     public Items item;
-    private int[,] items = new int[64,2]; //1- water 2- energyDrink
+    private int[,] items = new int[64, 2]; //1- water 2- energyDrink
     int itemsCount = 0;
     private Player player;
     private void Awake()
     {
-       // content = GameObject.FindGameObjectWithTag("Inventory");
+        // content = GameObject.FindGameObjectWithTag("Inventory");
         player = GetComponent<Player>();
 
     }
     private void Update()
     {
         UseItem();
+        UseItemByKeys();
     }
-    public void AddItem(int idItem, Sprite spriteItem) {
+    public void AddItem(int idItem, Sprite spriteItem)
+    {
         bool flagFound = false;
         int whereFound = 0;
-        for (int i = 0; i < itemsCount; i++) {
-            if (items[i, 0] == idItem) { 
+        for (int i = 0; i < itemsCount; i++)
+        {
+            if (items[i, 0] == idItem)
+            {
                 flagFound = true;
                 whereFound = i;
             }
@@ -41,39 +45,76 @@ public class Inventory : MonoBehaviour
             newItem.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
             Instantiate(newItem, content.transform);
         }
-        else {
+        else
+        {
             items[whereFound, 0] = idItem;
             items[whereFound, 1]++;
             content.transform.GetChild(whereFound).GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
         }
         itemsCount++;
-        Debug.Log(items[0, 0] +"----"+ items[0, 1]);
+        Debug.Log(items[itemsCount - 1, 0] + "----" + items[itemsCount - 1, 1]);
     }
 
-    public void UseItem() {
-        for (int i = 0; i < itemsCount; i++) {
-            if(itemsCount>0)
-            if (content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed) {
-                content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed = false;
-                int pushItem = items[i, 0];
-                switch (pushItem) {
-                    case 1: item.UseWater(); break;
-                    case 2: item.UseEnergyDrink(); break;
-                }
-                if (items[i, 1] > 1)
+    public void UseItem()
+    {
+        for (int i = 0; i < itemsCount; i++)
+        {
+            if (itemsCount > 0)
+                if (content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed)
                 {
-                    items[i, 1]--;
-                    content.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<Text>().text = items[i, 1].ToString();
-                }
-                else {
-                    if (itemsCount > 0) {
-                        items[i,0] = items[i + 1,0];
-                        items[i,1] = items[i + 1,1];
+                    content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed = false;
+                    int pushItem = items[i, 0];
+                    switch (pushItem)
+                    {
+                        case 1: item.UseWater(); break;
+                        case 2: item.UseEnergyDrink(); break;
+                        case 3: item.useSmokeItem(); break;
+                        case 4: item.UsePetardItem(); break;
                     }
-                    itemsCount--;
-                    Destroy(content.transform.GetChild(i).gameObject);
+                    if (items[i, 1] > 1)
+                    {
+                        items[i, 1]--;
+                        content.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<Text>().text = items[i, 1].ToString();
+                    }
+                    else
+                    {
+                        if (itemsCount > 0)
+                        {
+                            items[i, 0] = items[i + 1, 0];
+                            items[i, 1] = items[i + 1, 1];
+                        }
+                        itemsCount--;
+                        Destroy(content.transform.GetChild(i).gameObject);
+                    }
+                }
+        }
+    }
+
+
+    public void UseItemByKeys() {
+        bool[] keyPushed = new bool[10];
+        keyPushed[9] = Input.GetKeyUp(KeyCode.Alpha0);
+        keyPushed[0] = Input.GetKeyUp(KeyCode.Alpha1);
+        keyPushed[1] = Input.GetKeyUp(KeyCode.Alpha2);
+        keyPushed[2] = Input.GetKeyUp(KeyCode.Alpha3);
+        keyPushed[3] = Input.GetKeyUp(KeyCode.Alpha4);
+        keyPushed[4] = Input.GetKeyUp(KeyCode.Alpha5);
+        keyPushed[5] = Input.GetKeyUp(KeyCode.Alpha6);
+        keyPushed[6] = Input.GetKeyUp(KeyCode.Alpha7);
+        keyPushed[7] = Input.GetKeyUp(KeyCode.Alpha8);
+        keyPushed[8] = Input.GetKeyUp(KeyCode.Alpha9);
+
+        for(int i = 0; i < keyPushed.Length; i++){
+            if (keyPushed[i]) {
+                Debug.Log(i);
+                if (i < itemsCount) {
+                    content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed = true;
                 }
             }
         }
+        
+       
+
     }
+
 }

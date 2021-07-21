@@ -11,6 +11,10 @@ TagManager:
   - StatusUI
   - Inventory
   - EnergyDrink
+  - Smoke
+  - GiftBox
+  - smokeItem
+  - Enemy
   layers:
   - Default
   - TransparentFX

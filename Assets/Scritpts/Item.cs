@@ -15,4 +15,8 @@ public class Item : MonoBehaviour
     private void TaskOnClick() {
         pushed = true;
     }
+
+    public void Click() {
+        pushed = true;
+    }
 }
