@@ -39,7 +39,7 @@ public class Inventory : MonoBehaviour
         {
             whereFound = itemsCount;
             items[itemsCount, 0] = idItem;
-            items[itemsCount, 1]+=count;
+            items[itemsCount, 1] += count;
             GameObject newItem = itemUI;
             newItem.transform.GetChild(0).GetComponent<Image>().sprite = spriteItem;
             newItem.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
@@ -48,7 +48,7 @@ public class Inventory : MonoBehaviour
         else
         {
             items[whereFound, 0] = idItem;
-            items[whereFound, 1]+=count;
+            items[whereFound, 1] += count;
             content.transform.GetChild(whereFound).GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
         }
         itemsCount++;
@@ -57,12 +57,14 @@ public class Inventory : MonoBehaviour
 
     public void UseItem()
     {
-        for (int i = 0; i < itemsCount; i++)
+        if (content.transform.childCount > 0)
         {
-            if (content.transform.childCount > 0)
+            for (int i = 0; i < itemsCount; i++)
+            {
+
                 if (content.transform.GetChild(i).GetComponentInChildren<Item>().pushed)
                 {
-                    content.transform.GetChild(i).GetComponentInChildren<Item>().pushed = false; 
+                    content.transform.GetChild(i).GetComponentInChildren<Item>().pushed = false;
                     int pushItem = items[i, 0];
                     switch (pushItem)
                     {
@@ -88,11 +90,13 @@ public class Inventory : MonoBehaviour
                         Destroy(content.transform.GetChild(i).gameObject);
                     }
                 }
+            }
         }
     }
 
 
-    public void UseItemByKeys() {
+    public void UseItemByKeys()
+    {
         bool[] keyPushed = new bool[10];
         keyPushed[9] = Input.GetKeyUp(KeyCode.Alpha0);
         keyPushed[0] = Input.GetKeyUp(KeyCode.Alpha1);
@@ -105,16 +109,19 @@ public class Inventory : MonoBehaviour
         keyPushed[7] = Input.GetKeyUp(KeyCode.Alpha8);
         keyPushed[8] = Input.GetKeyUp(KeyCode.Alpha9);
 
-        for(int i = 0; i < keyPushed.Length; i++){
-            if (keyPushed[i]) {
-            //    Debug.Log(i);
-                if (i < itemsCount) {
+        for (int i = 0; i < keyPushed.Length; i++)
+        {
+            if (keyPushed[i])
+            {
+                //    Debug.Log(i);
+                if (i < itemsCount)
+                {
                     content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed = true;
                 }
             }
         }
-        
-       
+
+
 
     }
 
