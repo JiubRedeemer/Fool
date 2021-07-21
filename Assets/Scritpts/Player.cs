@@ -24,6 +24,18 @@ public class Player : Character
     {
         Move();
         Rotate();
+        TouchEnemy();
+    }
+    private void TouchEnemy() {
+        Collider2D[] cols;
+        cols = Physics2D.OverlapCircleAll(transform.position, 0.5F);
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].tag == "Enemy")
+            {
+                Destroy(this.gameObject);
+            }
+        }
     }
     protected override void Move()
     {

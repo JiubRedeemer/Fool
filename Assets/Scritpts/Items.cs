@@ -12,7 +12,6 @@ public class Items : MonoBehaviour
     string waterTag = "Water";
     private int waterId = 1;
     private float waterStamina = 20.0F;
-    private float waterPeeLvl = 10.0F;
     //EnergyDrink
     public Sprite energyDrinkSprite;
     string energyDrinkTag = "EnergyDrink";
@@ -20,7 +19,6 @@ public class Items : MonoBehaviour
     private float energyDrinkStamina = 100.0F;
     private float energyDrinkSpeedTime = 1.0f;
     private float energyDrinkTime = 15.0f;
-    private float energyDrinkPeeLvl = 20.0F;
     private bool energyDrinkActive = false;
     //SmokeItem
     public Sprite smokeItemSprite;
