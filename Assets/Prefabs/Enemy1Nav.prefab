@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6205175478167685495}
-  - component: {fileID: 6205175478167685481}
   - component: {fileID: 6205175478167685480}
   m_Layer: 0
   m_Name: NavFlag
@@ -32,18 +31,6 @@ Transform:
   m_Father: {fileID: 4848392468578777008}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6205175478167685481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6205175478167685494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c7e3ffef7d8394c82a9d1162955580, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &6205175478167685480
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -54,7 +41,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.32078058}
@@ -69,7 +56,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6205175478812102760}
-  - component: {fileID: 6205175478812102762}
   - component: {fileID: 6205175478812102761}
   m_Layer: 0
   m_Name: NavFlag (3)
@@ -92,18 +78,6 @@ Transform:
   m_Father: {fileID: 4848392468578777008}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6205175478812102762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6205175478812102775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c7e3ffef7d8394c82a9d1162955580, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &6205175478812102761
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -114,7 +88,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -167,7 +141,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c839ec5d77f9a48a4c114503e6ea43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeInFlag: 5
+  stayInFlag: 0
   agent: {fileID: 0}
+  navFlagNumber: 0
 --- !u!1 &6205175479359804553
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +154,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6205175479359804554}
-  - component: {fileID: 6205175479359804556}
   - component: {fileID: 6205175479359804555}
   m_Layer: 0
   m_Name: NavFlag (1)
@@ -200,18 +176,6 @@ Transform:
   m_Father: {fileID: 4848392468578777008}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6205175479359804556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6205175479359804553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c7e3ffef7d8394c82a9d1162955580, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &6205175479359804555
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -222,7 +186,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -237,7 +201,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6205175479794432755}
-  - component: {fileID: 6205175479794432757}
   - component: {fileID: 6205175479794432756}
   m_Layer: 0
   m_Name: NavFlag (2)
@@ -260,18 +223,6 @@ Transform:
   m_Father: {fileID: 4848392468578777008}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6205175479794432757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6205175479794432754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c7e3ffef7d8394c82a9d1162955580, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &6205175479794432756
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -282,7 +233,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

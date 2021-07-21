@@ -8,7 +8,7 @@ public class EnemyAI : Character
     public int status; // 1-Stay in Flag, 2-Go to Flag, 3 - Go to last Player pos, 4 - Attack, 5 - StayInSmoke
     public int dangerLvl = 3; //1-Attack player, 2-go to last player pos, 3 - Patrool
 
-    private float hearArea = 3.0F;
+    private float hearArea = 15.0F;
     private float viewArea = 6.0F;
     private float rotateSpeed = 0.1f;
     private float seeInOnePosTime = 1.0f;
@@ -16,7 +16,7 @@ public class EnemyAI : Character
     private float stayInDanger2ZoneTime = 5.0F;
     private float stayInDanger2ZoneTimeWaiter;
 
-    public string petardName = "";
+    public string petardTag = "Petard";
     public Vector3 distPos;
     public Vector3 lastVictimPos;
 
@@ -70,10 +70,14 @@ public class EnemyAI : Character
     private void listening()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, hearArea);
+
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].name == petardName)
+            Debug.Log(colliders[i].name);
+
+            if (colliders[i].tag == petardTag)
             {
+                Debug.Log(petardTag);
                 dangerLvl = 2;
                 playerStats.dangerLvl = dangerLvl;
                 //HERE TAKE DANGER LVL
@@ -120,6 +124,7 @@ public class EnemyAI : Character
 
     private void Patrool()
     {
+        playerStats.dangerLvl = dangerLvl;
 
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 1.0F);
         for (int i = 0; i < cols.Length; i++)

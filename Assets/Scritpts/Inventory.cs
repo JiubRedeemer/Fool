@@ -106,7 +106,7 @@ public class Inventory : MonoBehaviour
 
         for(int i = 0; i < keyPushed.Length; i++){
             if (keyPushed[i]) {
-                Debug.Log(i);
+            //    Debug.Log(i);
                 if (i < itemsCount) {
                     content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed = true;
                 }

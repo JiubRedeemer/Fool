@@ -44,6 +44,7 @@ public class Smoke : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(smokeDur);
         Destroy(gameObject);
+        
         enemyAI.takeLastVictimPos = true;
         enemyAI.dangerLvl = 3;
     }
