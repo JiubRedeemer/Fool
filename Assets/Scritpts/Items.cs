@@ -32,6 +32,7 @@ public class Items : MonoBehaviour
     public GameObject usedPetardPrefab;
     private string petardItemTag = "petardItem";
     private int petardItemId = 4;
+    private float petardFlyForce = 3.0f;
 
 
 
@@ -149,8 +150,10 @@ public class Items : MonoBehaviour
         }
     }
 
-    public void UsePetardItem() { 
-    
+    public void UsePetardItem() {
+        GameObject usedPetard = Instantiate(usedPetardPrefab, playerStats.player.transform.position, playerStats.player.transform.rotation);
+        Rigidbody2D rb = usedPetard.GetComponent<Rigidbody2D>();
+        rb.AddForce(playerStats.player.transform.right * petardFlyForce, ForceMode2D.Impulse);
     }
 
 }

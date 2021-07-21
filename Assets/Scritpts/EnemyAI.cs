@@ -16,7 +16,7 @@ public class EnemyAI : Character
     private float stayInDanger2ZoneTime = 5.0F;
     private float stayInDanger2ZoneTimeWaiter;
 
-
+    public string petardName = "";
     public Vector3 distPos;
     public Vector3 lastVictimPos;
 
@@ -72,7 +72,7 @@ public class EnemyAI : Character
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, hearArea);
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].tag == "Player" && Input.GetButtonDown("Fire1"))
+            if (colliders[i].name == petardName)
             {
                 dangerLvl = 2;
                 playerStats.dangerLvl = dangerLvl;
