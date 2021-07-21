@@ -9,7 +9,7 @@ public class Petard : MonoBehaviour
     private float flyTime = 1.5f;
     private float animTime = 1.0f;
     private float soundArea = 15.0f;
-    private float petardFlyForce = 3.0f;
+    private float petardFlyForce = 6.0f;
     public GameObject bangGameObject;
     private Animator anim;
     EnemyAI enemyAI;

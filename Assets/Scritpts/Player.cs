@@ -7,9 +7,13 @@ public class Player : Character
     public Camera cam;
     private Vector3 faceDir;
     Vector3 mousePos;
+    private Animator anim;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+
     }
     void Start()
     {
@@ -26,6 +30,11 @@ public class Player : Character
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
+        if(Input.GetAxisRaw("Horizontal")!=0 || Input.GetAxisRaw("Vertical") != 0) 
+        anim.SetBool("isRun", true);
+        else anim.SetBool("isRun", false);
+
+
     }
 
     protected override void Rotate()

@@ -8,7 +8,7 @@ public class EnemyAI : Character
     public int status; // 1-Stay in Flag, 2-Go to Flag, 3 - Go to last Player pos, 4 - Attack, 5 - StayInSmoke
     public int dangerLvl = 3; //1-Attack player, 2-go to last player pos, 3 - Patrool
 
-    private float hearArea = 15.0F;
+    private float hearArea = 9.0F;
     private float viewArea = 6.0F;
     private float rotateSpeed = 0.1f;
     private float seeInOnePosTime = 1.0f;
@@ -20,7 +20,7 @@ public class EnemyAI : Character
     public Vector3 distPos;
     public Vector3 lastVictimPos;
 
-
+    private Animator anim;
     private PlayerStats playerStats;
     private NavMeshAgent agent;
     private SpriteRenderer statusUI;
@@ -37,7 +37,7 @@ public class EnemyAI : Character
 
     private void Awake()
     {
-
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         playerStats = FindObjectOfType<PlayerStats>();
         statusUITransform = transform.GetChild(2);
@@ -73,7 +73,7 @@ public class EnemyAI : Character
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            Debug.Log(colliders[i].name);
+           // Debug.Log(colliders[i].name);
 
             if (colliders[i].tag == petardTag)
             {
@@ -125,14 +125,14 @@ public class EnemyAI : Character
     private void Patrool()
     {
         playerStats.dangerLvl = dangerLvl;
-
+        anim.SetBool("isRun", true);
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, 1.0F);
         for (int i = 0; i < cols.Length; i++)
         {
             if (cols[i].name == "NavFlag " + "(" + navFlagNumber + ")")
             {
                 takeLastVictimPos = true;
-
+                anim.SetBool("isRun", false);
             }
         }
 
@@ -146,6 +146,7 @@ public class EnemyAI : Character
     {
         if (status != 5)
         {
+            anim.SetBool("isRun", true);
 
             agent.speed = 2.5F;
             distPos = playerStats.player.transform.position;
@@ -160,13 +161,16 @@ public class EnemyAI : Character
 
     private void Danger2()
     {
+        anim.SetBool("isRun", true);
         agent.speed = 2.0F;
         distPos = lastVictimPos;
         agent.SetDestination(distPos);
+        anim.SetBool("isRun", true);
 
         if ((lastVictimPos - transform.position).magnitude <= 1.0f)
         {
             Debug.Log("Take pos");
+            anim.SetBool("isRun", false);
             status = 1;
             if ((stayInDanger2ZoneTimeWaiter -= Time.deltaTime) <= 0)
             {
@@ -200,6 +204,7 @@ public class EnemyAI : Character
     private void RandomRotate()
     {
         //  Debug.Log(seeInOnePosTime);
+        anim.SetBool("isRun", false);
         if ((seeInOnePosTimeWaiter -= Time.deltaTime) <= 0)
         {
             randAngle = Random.Range(0, 360);
@@ -213,6 +218,7 @@ public class EnemyAI : Character
 
     public void StayInSmoke()
     {
+        anim.SetBool("isRun", false);
         agent.speed = 0.0f;
         fildOfView = 0.0f;
         status = 5;

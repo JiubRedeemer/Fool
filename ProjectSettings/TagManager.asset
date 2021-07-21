@@ -17,6 +17,7 @@ TagManager:
   - Enemy
   - petardItem
   - Petard
+  - Battery
   layers:
   - Default
   - TransparentFX

@@ -32,6 +32,12 @@ public class Items : MonoBehaviour
     public GameObject usedPetardPrefab;
     private string petardItemTag = "petardItem";
     private int petardItemId = 4;
+    //Battery
+    private string batteryTag = "Battery";
+    private int batteryId = 5;
+    public Sprite batterySprite;
+    //GiftBox
+    private string giftBoxTag = "GiftBox";
 
 
 
@@ -48,6 +54,8 @@ public class Items : MonoBehaviour
         TakeEnergyDrink();
         TakeSmokeItem();
         TakePetardItem();
+        TakeBattery();
+        TakeGiftBox();
     }
     public void CastCollider()
     {
@@ -60,7 +68,7 @@ public class Items : MonoBehaviour
         {
             if (cols[i].tag == waterTag)
             {
-                inventory.AddItem(waterId, waterSprite);
+                inventory.AddItem(waterId, waterSprite, 1);
 
                 Destroy(cols[i].gameObject);
 
@@ -71,7 +79,6 @@ public class Items : MonoBehaviour
     public void UseWater()
     {
         playerStats.Stamina += waterStamina;
-        playerStats.PeeLvl += waterPeeLvl;
         playerStats.setNormalSpeed();
     }
 
@@ -81,7 +88,7 @@ public class Items : MonoBehaviour
         {
             if (cols[i].tag == energyDrinkTag)
             {
-                inventory.AddItem(energyDrinkId, energyDrinkSprite);
+                inventory.AddItem(energyDrinkId, energyDrinkSprite, 1);
 
                 Destroy(cols[i].gameObject);
 
@@ -92,7 +99,6 @@ public class Items : MonoBehaviour
     {
         energyDrinkActive = true;
         playerStats.Stamina += energyDrinkStamina;
-        playerStats.PeeLvl += energyDrinkPeeLvl;
         playerStats.setHighSpeed();
         StartCoroutine(EnergyDrink());
     }
@@ -122,7 +128,7 @@ public class Items : MonoBehaviour
         {
             if (cols[i].tag == smokeItemTag)
             {
-                inventory.AddItem(smokeItemId, smokeItemSprite);
+                inventory.AddItem(smokeItemId, smokeItemSprite, 1);
 
                 Destroy(cols[i].gameObject);
 
@@ -142,15 +148,52 @@ public class Items : MonoBehaviour
         {
             if (cols[i].tag == petardItemTag)
             {
-                inventory.AddItem(petardItemId, petardItemSprite);
+                inventory.AddItem(petardItemId, petardItemSprite, 1);
+                Destroy(cols[i].gameObject);
+            }
+        }
+    }
+
+    public void UsePetardItem()
+    {
+        GameObject usedPetard = Instantiate(usedPetardPrefab, playerStats.player.transform.position, playerStats.player.transform.rotation);
+    }
+    public void TakeBattery() 
+        {
+            for (int i = 0; i < cols.Length; i++)
+            {
+                if (cols[i].tag == batteryTag)
+                {
+                inventory.AddItem(batteryId, batterySprite, 1);
+                Destroy(cols[i].gameObject);
+                }
+            }
+    }
+
+    public void UseBattery() {
+        playerStats.flashLightLevel += 100;
+        playerStats.flashLightLight.intensity = 1.0f;
+    }
+
+    public void TakeGiftBox()
+    {
+
+
+        for (int i = 0; i < cols.Length; i++)
+        {
+            if (cols[i].tag == giftBoxTag)
+            {
+                int randItem = Random.Range(1, 5);
+                Sprite[] sprites = new Sprite[5];
+                sprites[0] = waterSprite;
+                sprites[1] = energyDrinkSprite;
+                sprites[2] = smokeItemSprite;
+                sprites[3] = petardItemSprite;
+                sprites[4] = batterySprite;
+                inventory.AddItem(randItem, sprites[randItem-1], Random.Range(1, 6));
                 Destroy(cols[i].gameObject);
 
             }
         }
     }
-
-    public void UsePetardItem() {
-        GameObject usedPetard = Instantiate(usedPetardPrefab, playerStats.player.transform.position, playerStats.player.transform.rotation);
-    }
-
 }

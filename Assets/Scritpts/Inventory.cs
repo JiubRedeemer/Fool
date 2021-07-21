@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour
         UseItem();
         UseItemByKeys();
     }
-    public void AddItem(int idItem, Sprite spriteItem)
+    public void AddItem(int idItem, Sprite spriteItem, int count)
     {
         bool flagFound = false;
         int whereFound = 0;
@@ -39,7 +39,7 @@ public class Inventory : MonoBehaviour
         {
             whereFound = itemsCount;
             items[itemsCount, 0] = idItem;
-            items[itemsCount, 1]++;
+            items[itemsCount, 1]+=count;
             GameObject newItem = itemUI;
             newItem.transform.GetChild(0).GetComponent<Image>().sprite = spriteItem;
             newItem.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
@@ -48,7 +48,7 @@ public class Inventory : MonoBehaviour
         else
         {
             items[whereFound, 0] = idItem;
-            items[whereFound, 1]++;
+            items[whereFound, 1]+=count;
             content.transform.GetChild(whereFound).GetChild(0).GetChild(0).GetComponent<Text>().text = items[whereFound, 1].ToString();
         }
         itemsCount++;
@@ -59,10 +59,10 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < itemsCount; i++)
         {
-            if (itemsCount > 0)
-                if (content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed)
+            if (content.transform.childCount > 0)
+                if (content.transform.GetChild(i).GetComponentInChildren<Item>().pushed)
                 {
-                    content.transform.GetChild(i).GetChild(0).GetComponent<Item>().pushed = false;
+                    content.transform.GetChild(i).GetComponentInChildren<Item>().pushed = false; 
                     int pushItem = items[i, 0];
                     switch (pushItem)
                     {
@@ -70,6 +70,7 @@ public class Inventory : MonoBehaviour
                         case 2: item.UseEnergyDrink(); break;
                         case 3: item.useSmokeItem(); break;
                         case 4: item.UsePetardItem(); break;
+                        case 5: item.UseBattery(); break;
                     }
                     if (items[i, 1] > 1)
                     {
@@ -80,10 +81,10 @@ public class Inventory : MonoBehaviour
                     {
                         if (itemsCount > 0)
                         {
+                            itemsCount--;
                             items[i, 0] = items[i + 1, 0];
                             items[i, 1] = items[i + 1, 1];
                         }
-                        itemsCount--;
                         Destroy(content.transform.GetChild(i).gameObject);
                     }
                 }

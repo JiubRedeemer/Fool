@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4175542024950886689}
   - component: {fileID: 4175542024950886690}
   m_Layer: 0
-  m_Name: Petard
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!1 &4175542024962109009
 GameObject:
