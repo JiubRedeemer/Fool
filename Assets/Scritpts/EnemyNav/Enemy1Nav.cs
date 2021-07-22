@@ -24,15 +24,11 @@ public class Enemy1Nav : Patrool
             Debug.Log(path[i].transform.position);
         }
         flags = path.Count;
-
     }
     [SerializeField]
     int navFlagNumber = 0;
     void Update()
     {
-
-        
-
     }
     private void FixedUpdate()
     {
@@ -57,6 +53,5 @@ public class Enemy1Nav : Patrool
         enemyAI.navFlagNumber = j;
         enemyAI.lastVictimPos = path[j].position;
         navFlagNumber++;
-
     }
 }

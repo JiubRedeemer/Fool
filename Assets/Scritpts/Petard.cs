@@ -30,16 +30,6 @@ public class Petard : MonoBehaviour
     private void Boom()
     {
         Debug.Log("Boom!!!");
-        //Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, soundArea);
-        //for (int i = 0; i < colliders.Length; i++)
-        //{
-        //    if (colliders[i].gameObject.tag == enemyTag)
-        //    {
-        //        enemyAI = colliders[i].GetComponent<EnemyAI>();
-        //     //   enemyAI.petardTag = name;
-        //        Debug.Log(colliders[i].name);
-        //    }
-        //}
         Destroy(gameObject);
     }
 
